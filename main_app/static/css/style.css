@@ -1,5 +1,6 @@
 body {
- 
+    background-image: url('https://melaniedekker.com/wp-content/uploads/2018/01/vinyl-records2.jpg');
+    background-size: cover;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
@@ -13,3 +14,4 @@ body {
     padding-top: 0;
     text-align: right;
   }
+
