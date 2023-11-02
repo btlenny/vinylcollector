@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Turntable List</h1>
+
+{% for turntable in turntable_list %}
+  <a href="{% url 'turntables_detail' turntable.id %}">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ turntable.brand }}</span>
+            <p>Brand: {{ turntable.model }}</p>
+        </div>
+    </div>
+  </a>
+{% endfor %}
+
+{% endblock %}

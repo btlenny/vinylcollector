@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Vinyl Details</h1>
+
+<div class="row">
+    <div class="col s6">
+      <div class="card">
+        <div class="card-content">
+    <span class="card-title">{{ vinyl.artist }}</span>
+    <p>Album: {{ vinyl.album }}</p>
+    <p>Tracks: {{ vinyl.tracks }}</p>
+    <p>Year: {{ vinyl.year }}</p>
+  </div>
+  <div class="card-action">
+    <a href="{% url 'vinyls_update' vinyl.id %}">Edit</a>
+    <a href="{% url 'vinyls_delete' vinyl.id %}">Delete</a>
+  </div>
+</div>
+</div>
+    {% for photo in vinyl.photo_set.all %}
+     <img class="responsive-img card-panel" src="{{photo.url}}">
+    {% empty %}
+    <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+    {% endfor %}
+    <form action="{% url 'add_photo' vinyl.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+     {% csrf_token %}
+    <input type="file" name="photo-file">
+    <br><br>
+    <button type="submit" class="btn">Upload Photo</button>
+</form>
+</div>
+  <!-- New Markup Below -->
+  <div class="col s6">
+    <form action="{% url 'add_listens' vinyl.id %}" method="POST">
+      {% csrf_token %}
+      <!-- Render the inputs -->
+      {{ listens_form.as_p }}
+      <input type="submit" class="btn" value="Add Listens">
+    </form>
+    <table class="striped">
+      <thead>
+        <tr><th>Date</th><th>Rating</th></tr>
+      </thead>
+      <tbody>
+        {% for listens in vinyl.listens_set.all %}
+          <tr>
+          <td>{{listens.date}}</td>
+          <td>{{listens.get_rating_display}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <!-- New Markup Above -->
+</div>
+<hr>
+<div class="row">
+  <div class="col s6">
+    <h3>{{ vinyl.artist }}'s Turntables</h3>
+    {% if vinyl.turntables.count %}
+      {% for turntable in vinyl.turntables.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="model: {{ turntable.model }}">{{ turntable.model  }}</span> {{ turntable.brand }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'unassoc_turntable' vinyl.id turntable.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Remove</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>No Turntables </h5>
+    {% endif %}
+  </div>
+  <!-- Available toys will come after this line -->
+<div class="col s6">
+    <h3>Available Turntables</h3>
+    {% if turntables.count %}
+      {% for turntable in turntables.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="model: {{ turntable.model }}">{{ turntable.model }}</span> {{ turntable.brand }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'assoc_turntable' vinyl.id turntable.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>{{vinyl.artist}} Already Has All Turntables Available</h5>
+    {% endif %}
+  </div>
+</div>
+<script>
+    const dateEl = document.getElementById('id_date');
+    // M is Materialize's global variable
+    M.Datepicker.init(dateEl, {
+      format: 'yyyy-mm-dd',
+      defaultDate: new Date(),
+      setDefaultDate: true,
+      autoClose: true
+    });
+     // add additional JS to initialize select below
+  const selectEl = document.getElementById('id_rating');
+  M.FormSelect.init(selectEl);
+  </script>
+
+{% endblock %}
