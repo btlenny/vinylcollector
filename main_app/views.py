@@ -4,7 +4,7 @@ import os
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
-from .models import Vinyl, Turntable
+from .models import Vinyl, Turntable, Photo
 from .forms import ListensForm
 
 # Create your views here.
