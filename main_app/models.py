@@ -3,6 +3,7 @@ from django.urls import reverse
 from datetime import date
 
 
+
 # A tuple of 2-tuples
 RATINGS = (
     ('B', 'Bad'),
@@ -30,6 +31,7 @@ class Vinyl(models.Model):
   year = models.IntegerField()
  
   turntables = models.ManyToManyField(Turntable)
+
 
   def __str__(self):
     return f'{self.artist} ({self.id})'
