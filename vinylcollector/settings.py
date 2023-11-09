@@ -82,10 +82,15 @@ WSGI_APPLICATION = 'vinylcollector.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vinylcollector',
+        'NAME': 'neondb',
+        'USER': 'btlenny',
+        'PASSWORD': 'h1x8LNGDIEdm',
+        'HOST': 'ep-dark-tooth-52506241.us-west-2.aws.neon.tech',
+        'OPTIONS': {
+             'sslmode': 'require',
     }
+  }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -123,6 +128,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Add this variable to specify where successful logins should redirect to
+LOGIN_REDIRECT_URL = '/vinyls/'
+# Add this variable to specify where logging out redirects to
+LOGOUT_REDIRECT_URL = '/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
